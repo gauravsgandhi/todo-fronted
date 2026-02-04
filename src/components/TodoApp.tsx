@@ -16,7 +16,7 @@ const App = (): ReactElement => {
   async function importData(): Promise<void> {
     try {
       const response = await axios.get<Task[]>(
-        "http://localhost:5000/api/tasks"
+        "http://18.117.220.60:5000/api/tasks"
       );
       setList(response.data);
     } catch (error) {
@@ -37,7 +37,7 @@ const App = (): ReactElement => {
       return;
     }
     try {
-      await axios.post("http://localhost:5000/api/tasks", {
+      await axios.post("http://18.117.220.60:5000/api/tasks", {
         task: value,
       });
       setValue("");
@@ -53,7 +53,7 @@ const App = (): ReactElement => {
 
   async function handleDelete(_id: string): Promise<void> {
     try {
-      await axios.delete(`http://localhost:5000/api/tasks/${_id}`);
+      await axios.delete(`http://18.117.220.60:5000/api/tasks/${_id}`);
       importData();
     } catch (error) {
       if (axios.isAxiosError(error)) {
@@ -71,7 +71,7 @@ const App = (): ReactElement => {
 
   async function handleSave(id: string): Promise<void> {
     try {
-      await axios.put(`http://localhost:5000/api/tasks/${id}`, {
+      await axios.put(`http://18.117.220.60:5000/api/tasks/${id}`, {
         task: editValue,
       });
       setEditId(null);
