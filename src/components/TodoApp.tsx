@@ -1,4 +1,5 @@
-import React, { useEffect, useState, ReactElement } from "react";
+import { useEffect, useState } from "react";
+import type { ReactElement } from "react";
 import axios from "axios";
 
 type Task = {
