@@ -1,4 +1,4 @@
-FROM node:alpine3.18 as build
+FROM node:alpine3.18 AS build
 
 # Declare build time environment variables
 ARG REACT_APP_NODE_ENV
@@ -13,7 +13,7 @@ WORKDIR /app
 COPY package.json .
 RUN npm install
 COPY . .
-RUN npm run build
+RUN tsc -b && vite build
 
 # Serve with Nginx
 FROM nginx:1.23-alpine
