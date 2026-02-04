@@ -1,24 +1,24 @@
-FROM node:alpine3.18 AS build
-
-# Declare build time environment variables
-ARG REACT_APP_NODE_ENV
-ARG REACT_APP_SERVER_BASE_URL
-
-# Set default values for environment variables
-ENV REACT_APP_NODE_ENV=$REACT_APP_NODE_ENV
-ENV REACT_APP_SERVER_BASE_URL=$REACT_APP_SERVER_BASE_URL
-
-# Build App
+# -------- Build stage --------
+FROM node:18 AS BUILD
 WORKDIR /app
-COPY package.json .
-RUN npm install
-COPY . .
-RUN npm run dev build
 
-# Serve with Nginx
-FROM nginx:1.23-alpine
+COPY package*.json ./
+RUN npm ci
+
+COPY . .
+RUN npm run build    # outputs: /app/dist
+
+# -------- Nginx runtime --------
+FROM nginx:alpine
 WORKDIR /usr/share/nginx/html
-RUN rm -rf *
+
+# optional: start clean
+RUN rm -rf ./*
+
+# copy built site
 COPY --from=BUILD /app/dist ./
+
+# Simple server block is fine if you place it in the default
+# Otherwise you can drop a custom config in /etc/nginx/conf.d/default.conf
 EXPOSE 80
-ENTRYPOINT [ "nginx", "-g", "daemon off;" ]
+CMD ["nginx", "-g", "daemon off;"]
