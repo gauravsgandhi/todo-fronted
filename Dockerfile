@@ -6,7 +6,7 @@ COPY package*.json ./
 RUN npm ci
 
 COPY . .
-RUN npm run build    # outputs: /app/dist
+RUN npm run dev build    # outputs: /app/dist
 
 # -------- Nginx runtime --------
 FROM nginx:alpine
