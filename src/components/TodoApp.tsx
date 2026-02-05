@@ -16,8 +16,21 @@ const App = (): ReactElement => {
   async function importData(): Promise<void> {
     try {
       const response = await axios.get<Task[]>(
-        "http://18.117.220.60:5000/api/tasks"
+        "http://18.117.220.60:5000/api/tasks",    
+     {
+        headers: {
+          // Only include headers you actually need
+          "Content-Type": "application/json",
+          // If you use tokens/cookies:
+          // "Authorization": `Bearer ${token}`,
+          // 'X-Requested-With': 'XMLHttpRequest',
+        },
+        // If you need cookies from the API domain:
+        // withCredentials: true,
+      
+      }
       );
+      
       setList(response.data);
     } catch (error) {
       if (axios.isAxiosError(error)) {
